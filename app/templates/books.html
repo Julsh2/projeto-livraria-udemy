@@ -1,0 +1,118 @@
+{% extends 'base.html' %} {% block title %}Gerenciar Livros{% endblock %} {% block content %}
+<style>
+	.container-fixed {
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.card,
+	.table-container {
+		background: white;
+		padding: 20px;
+		border-radius: 10px;
+		box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+		margin-bottom: 20px;
+		width: 100%;
+	}
+
+	.card h1 {
+		margin-bottom: 20px;
+		font-size: 24px;
+		color: #333;
+	}
+
+	.form-inline {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10px;
+	}
+
+	.form-group {
+		flex: 1 1 250px;
+		margin-bottom: 10px;
+	}
+
+    .form-control {
+    width: 100%;
+}
+
+    
+
+	.form-check {
+		flex: 1 1 auto;
+		display: flex;
+		align-items: center;
+	}
+
+	.btn-primary {
+		flex: 1 1 100%;
+		margin-top: 10px;
+	}
+
+	.table th,
+	.table td {
+		text-align: center;
+		vertical-align: middle;
+	}
+
+	.btn-warning,
+	.btn-danger {
+		margin: 0 5px;
+	}
+
+	.btn-sm {
+		padding: 5px 10px;
+		font-size: 12px;
+	}
+</style>
+
+<div class="container-fixed">
+	<div class="card">
+		<h1>Livros</h1>
+		<form method="POST" class="form-inline mb-4">
+			{{ form.hidden_tag() }}
+			<div class="form-group">{{ form.title.label(class="sr-only") }} {{ form.title(class="form-control", placeholder="Título") }}</div>
+			<div class="form-group">{{ form.author.label(class="sr-only") }} {{ form.author(class="form-control", placeholder="Autor") }}</div>
+			<div class="form-group">{{ form.type.label(class="sr-only") }} {{ form.type(class="form-control", placeholder="Gênero") }}</div>
+			<div class="form-group form-check">{{ form.available(class="form-check-input") }} {{ form.available.label(class="form-check-label") }}</div>
+			<button type="submit" class="btn btn-primary">Adicionar Livro</button>
+		</form>
+	</div>
+
+	<div class="table-container">
+		<h4>Total de: {{ books|length }} registros</h4>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Título</th>
+					<th>Autor</th>
+					<th>Gênero</th>
+					<th>Disponível</th>
+					<th>Criado por</th>
+					<th>Atualizado por</th>
+					<th>Ações</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for book in books %}
+				<tr>
+					<td>{{ book.title }}</td>
+					<td>{{ book.author }}</td>
+					<td>{{ book.type.name }}</td>
+					<td>{{ 'Sim' if book.available else 'Não' }}</td>
+					<td>{{ book.creator.username if book.creator else 'N/A' }}</td>
+					<td>{{ book.updater.username if book.updater else 'N/A' }}</td>
+					<td>
+						<a href="{{ url_for('update_book', book_id=book.id) }}" class="btn btn-warning btn-sm">Editar</a>
+						<form action="{{ url_for('delete_book', book_id=book.id) }}" method="post" style="display: inline">
+							{{ form.hidden_tag() }}
+							<button type="submit" class="btn btn-danger btn-sm">Excluir</button>
+						</form>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+{% endblock %}

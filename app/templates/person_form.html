@@ -1,0 +1,50 @@
+{% extends 'base.html' %} {% block title %}Editar Pessoa{% endblock %} {% block content %}
+<style>
+	.container-fixed {
+		margin-left: auto;
+		margin-right: auto;
+		width: 80%;
+		max-width: 800px;
+	}
+
+	.card {
+		background: white;
+		padding: 20px;
+		border-radius: 10px;
+		box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+		margin-bottom: 20px;
+		width: 100%;
+	}
+
+	.card h1 {
+		margin-bottom: 20px;
+		font-size: 24px;
+		color: #333;
+	}
+
+	.form-group {
+		margin-bottom: 20px;
+		width: 100%;
+	}
+
+	.btn-primary,
+	.btn-secondary {
+		width: 100%;
+		margin-top: 10px;
+	}
+</style>
+
+<div class="container-fixed">
+	<div class="card">
+		<h1>Editar Pessoa</h1>
+		<form method="POST" class="mb-4">
+			{{ form.hidden_tag() }}
+			<div class="form-group">{{ form.nome.label(class="form-control-label") }} {{ form.nome(class="form-control") }}</div>
+			<div class="form-group">{{ form.sobrenome.label(class="form-control-label") }} {{ form.sobrenome(class="form-control") }}</div>
+			<div class="form-group">{{ form.email.label(class="form-control-label") }} {{ form.email(class="form-control") }}</div>
+			<button type="submit" class="btn btn-primary">Salvar</button>
+		</form>
+		<a href="{{ url_for('manage_people') }}" class="btn btn-secondary">Voltar</a>
+	</div>
+</div>
+{% endblock %}

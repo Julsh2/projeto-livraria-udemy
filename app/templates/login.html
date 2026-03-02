@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<meta charset="UTF-8" />
+		<title>{% block title %}Livraria{% endblock %}</title>
+		<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	</head>
+	<style>
+		body {
+			background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+			margin: 0;
+		}
+
+		.login-container {
+			background: white;
+			padding: 30px;
+			border-radius: 10px;
+			box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+			max-width: 400px;
+			width: 100%;
+			text-align: center;
+		}
+
+		.login-container h2 {
+			margin-bottom: 20px;
+			font-size: 24px;
+			color: #333;
+		}
+
+		.login-container .form-group {
+			margin-bottom: 15px;
+			text-align: left;
+		}
+
+		.login-container .form-group label {
+			display: block;
+			margin-bottom: 5px;
+			font-weight: bold;
+		}
+
+		.login-container .form-control {
+			border: 1px solid #ddd;
+			padding: 10px;
+			font-size: 14px;
+			border-radius: 5px;
+			width: 100%;
+		}
+
+		.login-container .form-check-label {
+			font-size: 14px;
+		}
+
+		.login-container .btn {
+			background: #007bff;
+			color: white;
+			padding: 10px;
+			border: none;
+			border-radius: 5px;
+			width: 100%;
+			font-size: 16px;
+		}
+
+		.login-container .btn:hover {
+			background: #0056b3;
+		}
+
+		.login-container p {
+			margin-top: 20px;
+			font-size: 14px;
+		}
+
+		.login-container p a {
+			color: #007bff;
+			text-decoration: none;
+		}
+
+		.login-container p a:hover {
+			text-decoration: underline;
+		}
+
+		.icon {
+			display: inline-block;
+			margin-right: 10px;
+		}
+	</style>
+
+	<body>
+		<div class="login-container">
+			<h2>Login</h2>
+			<form method="POST" action="{{ url_for('login') }}">
+				{{ form.hidden_tag() }}
+				<div class="form-group">
+					<label for="username">
+						<span class="icon"><i class="fas fa-user"></i></span> {{ form.username.label.text }}
+					</label>
+					{{ form.username(class="form-control", id="username") }}
+				</div>
+				<div class="form-group">
+					<label for="password">
+						<span class="icon"><i class="fas fa-lock"></i></span> {{ form.password.label.text }}
+					</label>
+					{{ form.password(class="form-control", id="password") }}
+				</div>
+				<div class="form-group form-check">
+					{{ form.remember_me(class="form-check-input", id="remember_me") }}
+					<label class="form-check-label" for="remember_me"> {{ form.remember_me.label.text }} </label>
+				</div>
+				<button type="submit" class="btn">Login</button>
+			</form>
+			<p>Não tem uma conta? <a href="{{ url_for('register') }}">Registrar-se</a></p>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,195 @@
+{% extends 'base.html' %} {% block title %}Página Inicial{% endblock %} {% block content %}
+<style>
+	.card {
+		background: white;
+		padding: 20px;
+		border-radius: 10px;
+		box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+		margin-bottom: 20px;
+		width: 80%;
+		max-width: 800px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.card h3 {
+		margin-bottom: 20px;
+		font-size: 18px;
+		color: #333;
+	}
+
+	.chart-container {
+		height: 400px;
+	}
+
+	.info-container p {
+		font-size: 16px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 10px;
+		background: #f8f9fa;
+		border-radius: 5px;
+		margin-bottom: 10px;
+	}
+
+	.info-container p span {
+		display: flex;
+		align-items: center;
+	}
+
+	.info-container p i {
+		margin-right: 10px;
+		color: #007bff;
+	}
+
+	.info-container p:last-child {
+		margin-bottom: 0;
+	}
+</style>
+
+<div class="content">
+	<div class="card info-container">
+		<h3>Informações sobre os Livros</h3>
+		<p>
+			<span><i class="fas fa-book-open"></i> Número de livros disponíveis</span>
+			<span>{{ available_books }}</span>
+		</p>
+		<p>
+			<span><i class="fas fa-book-dead"></i> Número de livros indisponíveis</span>
+			<span>{{ unavailable_books }}</span>
+		</p>
+	</div>
+
+	<div class="card chart-card">
+		<h3>Ranking de Pessoas que mais alugam livros</h3>
+		<div class="chart-container">
+			<canvas id="rankingPersonsChart"></canvas>
+		</div>
+	</div>
+
+	<div class="card chart-card">
+		<h3>Ranking de Livros mais alugados</h3>
+		<div class="chart-container">
+			<canvas id="rankingBooksChart"></canvas>
+		</div>
+	</div>
+
+	<div class="card chart-card">
+		<h3>Quantidade de cada gênero de livros</h3>
+		<div class="chart-container">
+			<canvas id="bookTypeChart"></canvas>
+		</div>
+	</div>
+</div>
+
+<script>
+	const rankingPersonsData = {{ ranking_persons_data|safe }};
+	const rankingBooksData = {{ ranking_books_data|safe }};
+	const bookTypeData = {{ book_type_data|safe }};
+
+	const ctx1 = document.getElementById('rankingPersonsChart').getContext('2d');
+	const rankingPersonsChart = new Chart(ctx1, {
+	    type: 'bar',
+	    data: {
+	        labels: rankingPersonsData.labels,
+	        datasets: [{
+	            label: 'Quantidade de Empréstimos',
+	            data: rankingPersonsData.data,
+	            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+	            borderColor: 'rgba(75, 192, 192, 1)',
+	            borderWidth: 1
+	        }]
+	    },
+	    options: {
+	        scales: {
+	            x: {
+	                grid: {
+	                    display: false
+	                }
+	            },
+	            y: {
+	                grid: {
+	                    display: false
+	                },
+	                beginAtZero: true
+	            }
+	        },
+	        plugins: {
+	            legend: {
+	                display: true
+	            }
+	        }
+	    }
+	});
+
+	const ctx2 = document.getElementById('rankingBooksChart').getContext('2d');
+	const rankingBooksChart = new Chart(ctx2, {
+	    type: 'bar',
+	    data: {
+	        labels: rankingBooksData.labels,
+	        datasets: [{
+	            label: 'Quantidade de Empréstimos',
+	            data: rankingBooksData.data,
+	            backgroundColor: 'rgba(153, 102, 255, 0.2)',
+	            borderColor: 'rgba(153, 102, 255, 1)',
+	            borderWidth: 1
+	        }]
+	    },
+	    options: {
+	        scales: {
+	            x: {
+	                grid: {
+	                    display: false
+	                }
+	            },
+	            y: {
+	                grid: {
+	                    display: false
+	                },
+	                beginAtZero: true
+	            }
+	        },
+	        plugins: {
+	            legend: {
+	                display: true
+	            }
+	        }
+	    }
+	});
+
+	const ctx3 = document.getElementById('bookTypeChart').getContext('2d');
+	const bookTypeChart = new Chart(ctx3, {
+	    type: 'doughnut',
+	    data: {
+	        labels: bookTypeData.labels,
+	        datasets: [{
+	            label: 'Quantidade de Livros',
+	            data: bookTypeData.data,
+	            backgroundColor: [
+	                'rgba(255, 99, 132, 0.2)',
+	                'rgba(54, 162, 235, 0.2)',
+	                'rgba(255, 206, 86, 0.2)',
+	                'rgba(75, 192, 192, 0.2)',
+	                'rgba(153, 102, 255, 0.2)',
+	                'rgba(255, 159, 64, 0.2)'
+	            ],
+	            borderColor: [
+	                'rgba(255, 99, 132, 1)',
+	                'rgba(54, 162, 235, 1)',
+	                'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)'
+	            ],
+	            borderWidth: 1
+	        }]
+	    },
+	    options: {
+	        responsive: true,
+	        maintainAspectRatio: false
+	    }
+	});
+</script>
+
+{% endblock %}

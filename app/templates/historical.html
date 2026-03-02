@@ -1,0 +1,64 @@
+{% extends 'base.html' %} {% block title %}Histórico de Empréstimos{% endblock %} {% block content %}
+<style>
+	.container-fixed {
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.card {
+		background: white;
+		padding: 20px;
+		border-radius: 10px;
+		box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+		margin-bottom: 20px;
+		width: 100%;
+	}
+
+	.card h1 {
+		margin-bottom: 20px;
+		font-size: 24px;
+		color: #333;
+	}
+
+	.table-container {
+		margin-bottom: 20px;
+	}
+
+	.table {
+		background: white;
+		border-radius: 10px;
+	}
+
+	.table th,
+	.table td {
+		text-align: center;
+		vertical-align: middle;
+	}
+</style>
+
+<div class="container-fixed">
+	<div class="card">
+		<h1>Histórico de Empréstimos</h1>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Livro</th>
+					<th>Pessoa</th>
+					<th>Data de Empréstimo</th>
+					<th>Data de Devolução</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for entry in historical %}
+				<tr>
+					<td>{{ entry.book.title }}</td>
+					<td>{{ entry.person.nome }} {{ entry.person.sobrenome }}</td>
+					<td>{{ entry.borrow_date }}</td>
+					<td>{{ entry.return_date if entry.return_date else 'Em Aberto' }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+{% endblock %}

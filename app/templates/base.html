@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>{% block title %}Livraria{% endblock %}</title>
+		<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+	</head>
+	<body>
+		<div class="d-flex">
+			<nav class="sidebar">
+				<div class="sidebar-heading">Livraria</div>
+				<div class="list-group list-group-flush">
+					<a href="{{ url_for('index') }}" class="list-group-item list-group-item-action"><i class="fas fa-tachometer-alt"></i> Dashboards</a>
+					<a href="{{ url_for('manage_books') }}" class="list-group-item list-group-item-action"><i class="fas fa-book"></i> Gerenciar Livros</a>
+					<a href="{{ url_for('manage_people') }}" class="list-group-item list-group-item-action"><i class="fas fa-users"></i> Gerenciar Pessoas</a> 
+					<a href="{{ url_for('borrow_book') }}" class="list-group-item list-group-item-action" ><i class="fas fa-book-reader"></i> Emprestar Livro</a>
+				{#<a href="{{ url_for('view_historico') }}" class="list-group-item list-group-item-action"><i class="fas fa-history"></i> Ver Histórico</a>#}
+					<a href="{{ url_for('logout') }}" class="list-group-item list-group-item-action text-danger"><i class="fas fa-sign-out-alt"></i> Logout</a>
+				</div>
+			</nav>
+			<div class="container-fluid" id="content">
+				{% with messages = get_flashed_messages(with_categories=true) %} {% if messages %}
+				<div class="alert alert-{{ category }} mt-4" role="alert">{{ message }}</div>
+				{% endif %} {% endwith %} {% block content %}{% endblock %}
+			</div>
+		</div>
+
+		<style>
+			.sidebar {
+				position: fixed;
+				top: 0;
+				bottom: 0;
+				left: 0;
+				z-index: 100;
+				padding: 48px 0 0; /* Height of navbar */
+				width: 200px;
+				background-color: #f8f9fa;
+				box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			}
+
+			.sidebar .sidebar-heading {
+				padding: 1rem;
+				font-size: 1.5rem;
+				text-align: center;
+				border-bottom: 1px solid #dee2e6;
+			}
+
+			.sidebar .list-group-item {
+				padding: 1rem 1.5rem;
+				color: #007bff;
+			}
+
+			.sidebar .list-group-item:hover {
+				background-color: #e9ecef;
+				color: #0056b3;
+			}
+
+			.sidebar .list-group-item i {
+				margin-right: 10px;
+			}
+
+			.sidebar .text-danger {
+				color: #dc3545 !important;
+			}
+
+			.sidebar .text-danger:hover {
+				background-color: #f8d7da;
+				color: #c82333 !important;
+			}
+
+			#content {
+				margin-left: 200px; /* Same as the width of the sidebar */
+				padding: 20px;
+			}
+		</style>
+	</body>
+</html>

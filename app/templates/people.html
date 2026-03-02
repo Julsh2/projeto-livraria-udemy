@@ -1,0 +1,112 @@
+{% extends 'base.html' %} {% block title %}Gerenciar Pessoas{% endblock %} {% block content %}
+<style>
+	.container-fixed {
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.card,
+	.table-container {
+		background: white;
+		padding: 20px;
+		border-radius: 10px;
+		box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+		margin-bottom: 20px;
+		width: 100%;
+	}
+
+	.card h1 {
+		margin-bottom: 20px;
+		font-size: 24px;
+		color: #333;
+	}
+
+	.form-inline {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10px;
+	}
+
+	.form-group {
+		flex: 1 1 calc(33% - 10px);
+		margin-bottom: 10px;
+	}
+
+	.btn-primary {
+		flex: 1 1 100%;
+		margin-top: 10px;
+	}
+
+	.table th,
+	.table td {
+		text-align: center;
+		vertical-align: middle;
+	}
+
+	.btn-warning,
+	.btn-danger {
+		margin: 0 5px;
+	}
+
+	.btn-sm {
+		padding: 5px 10px;
+		font-size: 12px;
+	}
+</style>
+
+<div class="container-fixed">
+	<div class="card">
+		<h1>Pessoas</h1>
+        
+                 {% for field in form %}
+            {% for error in field.errors %}
+                 <div class="alert alert-danger">
+                      {{ error }}
+                 </div>
+              {% endfor %}
+        {% endfor %}
+
+		<form method="POST" class="form-inline mb-4">
+			{{ form.hidden_tag() }}
+
+			<div class="form-group">{{ form.nome.label(class="sr-only") }} {{ form.nome(class="form-control", placeholder="Nome") }}</div>
+			<div class="form-group">{{ form.sobrenome.label(class="sr-only") }} {{ form.sobrenome(class="form-control", placeholder="Sobrenome") }}</div>
+			<div class="form-group">{{ form.email.label(class="sr-only") }} {{ form.email(class="form-control", placeholder="Email") }}</div>
+			<button type="submit" class="btn btn-primary">Adicionar Pessoa</button>
+		</form>
+	</div>
+
+	<div class="table-container">
+		<h4>Total de: {{ people |length }} registros</h4>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Nome</th>
+					<th>Sobrenome</th>
+					<th>Email</th>
+					<th>Ações</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for person in people %}
+				<tr>
+					<td>{{ person.nome }}</td>
+					<td>{{ person.sobrenome }}</td>
+					<td>{{ person.email }}</td>
+
+         
+                         
+					<td>
+						<a href="{{ url_for('update_people', person_id=person.id) }}" class="btn btn-warning btn-sm">Editar</a>
+						<form action="{{ url_for('delete_people', person_id=person.id) }}" method="post" style="display: inline">
+							{{ form.hidden_tag() }}
+							<button type="submit" class="btn btn-danger btn-sm">Excluir</button>
+						</form>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+{% endblock %}
